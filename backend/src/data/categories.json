@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "title": "General Consultation",
+    "slug": "general-consultation",
+    "icon": "stethoscope",
+    "description": "Book appointments with general practitioners for routine checkups and medical advice."
+  },
+  {
+    "id": 2,
+    "title": "Laboratory Tests",
+    "slug": "laboratory-tests",
+    "icon": "flask",
+    "description": "Access a wide range of diagnostic and blood tests with easy result tracking."
+  },
+  {
+    "id": 3,
+    "title": "Pharmacy",
+    "slug": "pharmacy",
+    "icon": "pill",
+    "description": "Order, refill, and manage prescriptions with doorstep delivery options."
+  },
+  {
+    "id": 4,
+    "title": "Radiology & Imaging",
+    "slug": "radiology-and-imaging",
+    "icon": "x-ray",
+    "description": "Schedule X-rays, CT scans, MRIs, and other imaging services."
+  },
+  {
+    "id": 5,
+    "title": "Dental Care",
+    "slug": "dental-care",
+    "icon": "tooth",
+    "description": "Book dental checkups, cleanings, and treatments with certified dentists."
+  },
+  {
+    "id": 6,
+    "title": "Mental Health",
+    "slug": "mental-health",
+    "icon": "brain",
+    "description": "Connect with therapists and mental health professionals for counseling and therapy sessions."
+  },
+  {
+    "id": 7,
+    "title": "Maternity & Child Care",
+    "slug": "maternity-and-child-care",
+    "icon": "baby",
+    "description": "Get prenatal, postnatal, and pediatric healthcare support for mothers and children."
+  },
+  {
+    "id": 8,
+    "title": "Emergency Services",
+    "slug": "emergency-services",
+    "icon": "ambulance",
+    "description": "Quick access to emergency contacts, ambulance services, and urgent care."
+  },
+  {
+    "id": 9,
+    "title": "Vaccinations",
+    "slug": "vaccinations",
+    "icon": "syringe",
+    "description": "View, schedule, and manage immunization records for all age groups."
+  },
+  {
+    "id": 10,
+    "title": "Physiotherapy",
+    "slug": "physiotherapy",
+    "icon": "hand-heart",
+    "description": "Book sessions with physiotherapists to aid recovery and improve mobility."
+  }
+]
