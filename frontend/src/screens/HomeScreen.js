@@ -1,38 +1,71 @@
-import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialIcons } from "@expo/vector-icons";
+import React from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 
-import theme from "../constants/theme";
+import theme from '../constants/theme';
 
 const HomeScreen = ({ navigation, username }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
-        <View style={styles.leftSide}>
-          <View style={styles.title}>
-            <Text style={styles.titleText}>Hello{username}👋</Text>
+        <View style={styles.emergencyContainer}>
+          <View style={styles.emergencyLeft}>
+            <FontAwesome5
+              name="ambulance"
+              color={theme.SolidColor.White}
+              size={theme.SIZES.medium}
+            />
           </View>
-          <View style={styles.subTitle}>
-            <Text style={styles.subtitleText}>How are you doing today?</Text>
+          <View style={styles.emergencyRight}>
+            <View>
+              <Text style={styles.emergencyText}>Emergency Services</Text>
+            </View>
+            <View>
+              <Text style={styles.emergencySubtext}>
+                24/7 Available - Call Now
+              </Text>
+            </View>
           </View>
         </View>
 
-        <View style={styles.rightSide}>
-          <View style={styles.searchBg}>
-            <MaterialIcons
-              name="search"
-              size={theme.SIZES.xlarge}
-              color={theme.SolidColor.SecondaryBlue}
-            />
+        <View style={styles.greetingsContainer}>
+          <View style={styles.greetingsLeft}>
+            <View style={styles.title}>
+              <Text style={styles.titleText}>Hello{username}👋</Text>
+            </View>
+            <View style={styles.subTitle}>
+              <Text style={styles.subtitleText}>How are you doing today?</Text>
+            </View>
           </View>
-          <View style={styles.notificationBg}>
-            <MaterialIcons
-              name="notifications"
-              size={theme.SIZES.xlarge}
-              color={theme.SolidColor.SecondaryBlue}
-            />
+
+          <View style={styles.greetingsRight}>
+            <View style={styles.searchBg}>
+              <MaterialIcons
+                name="search"
+                size={theme.SIZES.xlarge}
+                color={theme.SolidColor.SecondaryBlue}
+              />
+            </View>
+            <View style={styles.notificationBg}>
+              <MaterialIcons
+                name="notifications"
+                size={theme.SIZES.xlarge}
+                color={theme.SolidColor.SecondaryBlue}
+              />
+            </View>
           </View>
+        </View>
+      </View>
+
+      <View style={styles.healthVitalsContainer}>
+        <View style={styles.healthVitalsTop}>
+          <Text style={styles.healthVitalsText}>Health Vitals</Text>
+        </View>
+        <View style={styles.vitalsCard}>
+          {/* {
+            hea
+        } */}
         </View>
       </View>
     </SafeAreaView>
@@ -46,30 +79,61 @@ const styles = StyleSheet.create({
     backgroundColor: theme.SolidColor.White,
   },
   top: {
-    height: 60,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
     //backgroundColor: theme.SolidColor.GreenSuccess,
   },
-  leftSide: {
-    justifyContent: "center",
+  emergencyContainer: {
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: theme.SIZES.medium,
+    borderRadius: theme.SIZES.small,
+    backgroundColor: theme.SolidColor.RedError,
   },
-  rightSide: {
-    flexDirection: "row",
-    justifyContent: "center",
+  greetingsContainer: {
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  emergencyLeft: {
+    marginRight: theme.SIZES.medium,
+  },
+  emergencyRight: {
+    alignItems: 'centers',
+    justifyContent: 'center',
+  },
+  emergencyText: {
+    fontFamily: theme.FONTS.bold,
+    fontSize: theme.FONT_SIZES.medium,
+    color: theme.SolidColor.White,
+    textAlign: 'center',
+  },
+  emergencySubtext: {
+    fontFamily: theme.FONTS.regular,
+    textAlign: 'center',
+    color: theme.SolidColor.White,
+    fontSize: theme.FONT_SIZES.medium,
+  },
+  greetingsLeft: {
+    justifyContent: 'center',
+  },
+  greetingsRight: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   searchBg: {
     borderRadius: theme.SIZES.large,
     padding: theme.SIZES.base,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   notificationBg: {
     borderRadius: theme.SIZES.large,
     padding: theme.SIZES.base,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   titleText: {
     fontFamily: theme.FONTS.semibold,
@@ -82,8 +146,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonRow: {
-    width: "80%",
+    width: '80%',
     marginVertical: 8,
+  },
+  healthVitalsContainer: {
+    borderColor: theme.GradientColor.BlueGradient,
+    borderWidth: 1,
+    padding: 15,
+    borderRadius: theme.SIZES.small,
+    backgroundColor: theme.SolidColor.White,
+  },
+  healthVitalsText: {
+    height: 150,
+    color: theme.SolidColor.DarkGray,
+    fontFamily: theme.FONTS.regular,
+    fontSize: theme.FONT_SIZES.medium,
   },
 });
 

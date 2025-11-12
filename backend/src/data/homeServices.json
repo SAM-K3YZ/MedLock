@@ -1,0 +1,158 @@
+[
+  {
+    "section": "quick_access",
+    "data": [
+      {
+        "title": "Emergency",
+        "icon": "exclamation-triangle",
+        "color": "#E53935",
+        "description": "Immediate medical help & ambulance request"
+      },
+      {
+        "title": "Appointments",
+        "icon": "calendar",
+        "color": "#1E88E5",
+        "description": "Book, view or manage your doctor visits"
+      },
+      {
+        "title": "Departments",
+        "icon": "building-columns",
+        "color": "#43A047",
+        "description": "Explore all hospital specialties"
+      },
+      {
+        "title": "Lab Tests",
+        "icon": "flask-vial",
+        "color": "#8E24AA",
+        "description": "Order tests & view results online"
+      },
+      {
+        "title": "Pharmacy",
+        "icon": "prescription-bottle",
+        "color": "#FB8C00",
+        "description": "Refill prescriptions & order medicines"
+      },
+      {
+        "title": "Records",
+        "icon": "file-medical",
+        "color": "#3949AB",
+        "description": "Access your medical history & reports"
+      }
+    ],
+    "country": "NG",
+    "updatedBy": "@theSamOmaka"
+  },
+  {
+    "section": "hospital_services",
+    "data": [
+      {
+        "title": "Ambulance",
+        "icon": "truck-medical",
+        "color": "#D32F2F",
+        "description": "Request emergency transport now"
+      },
+      {
+        "title": "Blood Bank",
+        "icon": "tint",
+        "color": "#C62828",
+        "description": "Donate blood or check availability"
+      },
+      {
+        "title": "Radiology",
+        "icon": "x-ray",
+        "color": "#1565C0",
+        "description": "X-ray, MRI, CT & ultrasound services"
+      },
+      {
+        "title": "Surgery",
+        "icon": "scalpel",
+        "color": "#7B1FA2",
+        "description": "Schedule or track surgical procedures"
+      },
+      {
+        "title": "Vaccination",
+        "icon": "syringe",
+        "color": "#388E3C",
+        "description": "Book vaccines for adults & children"
+      },
+      {
+        "title": "Bed Status",
+        "icon": "bed-pulse",
+        "color": "#F57C00",
+        "description": "Check real-time bed availability"
+      },
+      {
+        "title": "Telemedicine",
+        "subtitle": "Online Consult",
+        "icon": "video",
+        "color": "#0277BD",
+        "description": "Consult a doctor from anywhere"
+      },
+      {
+        "title": "Symptom Checker",
+        "subtitle": "AI Assessment",
+        "icon": "search",
+        "color": "#6A1B9A",
+        "description": "Get instant health insights with AI"
+      },
+      {
+        "title": "Health Packages",
+        "subtitle": "Preventive Care",
+        "icon": "heart-pulse",
+        "color": "#2E7D32",
+        "description": "Full-body checkups at great prices"
+      },
+      {
+        "title": "Insurance",
+        "subtitle": "Claims & Coverage",
+        "icon": "shield",
+        "color": "#EF6C00",
+        "description": "Verify coverage & file claims easily"
+      }
+    ],
+    "country": "NG",
+    "updatedBy": "@theSamOmaka"
+  },
+  {
+    "section": "more_services",
+    "data": [
+      {
+        "title": "Mental Health",
+        "subtitle": "Counseling",
+        "icon": "head-side-virus",
+        "color": "#D81B60",
+        "description": "Talk to a therapist confidentially"
+      },
+      {
+        "title": "Staff Directory",
+        "subtitle": "Find Doctors",
+        "icon": "user-doctor",
+        "color": "#8E24AA",
+        "description": "Search doctors by name or specialty"
+      },
+      {
+        "title": "Pregnancy Care",
+        "subtitle": "Maternity Journey",
+        "icon": "baby",
+        "color": "#C2185B",
+        "description": "Antenatal, delivery & postnatal support"
+      },
+      {
+        "title": "Health Education",
+        "subtitle": "Learn & Grow",
+        "icon": "book-open-reader",
+        "color": "#1976D2",
+        "description": "Articles, videos & wellness tips"
+      },
+      {
+        "title": "Home Healthcare",
+        "subtitle": "Care at Home",
+        "icon": "house-medical",
+        "color": "#43A047",
+        "description": "Nurse visits & medical care at home"
+      }
+    ],
+    "country": "NG",
+    "updatedBy": "@theSamOmaka"
+  }
+]

@@ -28,6 +28,9 @@
   },
   "private": true,
   "devDependencies": {
-    "expo-module-scripts": "^5.0.7"
+    "eslint": "^9.39.1",
+    "eslint-config-universe": "^15.0.3",
+    "expo-module-scripts": "^5.0.7",
+    "prettier": "^3.6.2"
   }
 }

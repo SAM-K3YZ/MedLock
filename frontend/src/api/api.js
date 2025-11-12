@@ -1,4 +1,6 @@
-import { API_BASE_URL } from "@env";
+import { API_BASE_URL } from '@env';
+
+console.log('Loaded API URL:', API_BASE_URL);
 
 export const fetchCategories = async () => {
   try {
@@ -7,11 +9,11 @@ export const fetchCategories = async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log("Fetched categories:", data);
+    console.log('Fetched categories:', data);
     //for full detatils, run below
     //console.log("Fetched categories:", JSON.stringify(data, null, 2));
     return data;
   } catch (error) {
-    console.error("Error fetching categories:", error);
+    console.error('Error fetching categories:', error);
   }
 };

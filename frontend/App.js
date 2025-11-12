@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import AppNavigation from "./src/navigation/AppNavigation";
-import { FONTS } from "./src/constants/fonts";
-import theme from "./src/constants/theme";
+import React, { useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigation from './src/navigation/AppNavigation';
+import { FONTS } from './src/constants/fonts';
+import theme from './src/constants/theme';
 
-import { fetchCategories } from "./api";
+import { fetchCategories } from './src/api/api.js';
 
 export default function App() {
   useEffect(() => {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.SolidColor.White,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

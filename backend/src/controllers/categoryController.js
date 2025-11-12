@@ -1,103 +1,130 @@
-const fs = require("fs");
+const Category = require('../models/categoryModel');
+const APIFeatures = require('./../utils/apifeatures');
 
-const categories = JSON.parse(
-  fs.readFileSync(`${__dirname}/../data/categories.json`, "utf-8")
-);
-
-exports.checkID = (req, res, next, val) => {
-  if (req.params.id * 1 > categories.length) {
-    console.log(`Category id is: ${val}`);
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid ID",
-    });
-  }
+exports.aliasTopCategory = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-slug,description';
+  req.query.fields = 'title, icon';
   next();
 };
 
-exports.checkBody = (req, res, next) => {
-  if (!req.body.title || !req.body.slug) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Missing title or slug",
+exports.getAllCategories = async (req, res) => {
+  try {
+    // Execute query
+    const features = new APIFeatures(Category.find(), req.query)
+      .filter()
+      .sort()
+      .limitFeilds()
+      .paginate(0);
+    const categories = await features.query;
+
+    // Send response
+    res.status(200).json({
+      status: 'success',
+      results: categories.length,
+      data: {
+        categories,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: error.message,
     });
   }
-  next();
 };
 
 //Route handlers
-exports.getCategory = (req, res) => {
-  //console.log(req.params);
-  const id = Number(req.params.id);
+exports.getCategory = async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    //Category.findOne({_id: req.params.id});
 
-  // Re-read the file (debug only)
-  const categories = JSON.parse(
-    fs.readFileSync(`${__dirname}/../data/categories.json`, "utf-8")
-  );
-
-  //console.log("Categories length:", categories.length);
-  //   console.log(
-  //     "IDs:",
-  //     categories.map((c) => c.id)
-  //   );
-  //   console.log(
-  //     "Type of el.id:",
-  //     typeof categories[0].id,
-  //     "| Type of id:",
-  //     typeof id
-  //   );
-
-  const category = categories.find((el) => Number(el.id) === id);
-
-  res.status(200).json({
-    data: { category },
-  });
+    res.status(200).json({
+      status: 'success',
+      data: { category },
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: error,
+    });
+  }
 };
 
-exports.getAllCategories = (req, res) => {
-  console.log(req.requestTime);
-  res.status(200).json({
-    status: "success",
-    requestedAt: req.requestTime,
-    results: categories.length,
-    data: {
-      categories,
-    },
-  });
+exports.createCategory = async (req, res) => {
+  try {
+    const newCategory = await Category.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        category: newCategory,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      messsage: 'Invalid data set!...',
+    });
+  }
 };
 
-exports.createCategory = (req, res) => {
-  const newId = categories[categories.length - 1].id + 1;
-  const newCategory = Object.assign({ id: newId }, req.body);
+exports.updateCategory = async (req, res) => {
+  try {
+    const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
-  categories.push(newCategory);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        category,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      messsage: 'Invalid data set!...',
+    });
+  }
+};
 
-  fs.writeFile(
-    `${__dirname}/src/data/categories.json`,
-    JSON.stringify(categories),
-    (err) => {
-      res.status(201).json({
-        status: "success",
-        data: {
-          category: newCategory,
+exports.deleteCategory = async (req, res) => {
+  try {
+    await Category.findByIdAndDelete(req.params.id);
+
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      messsage: 'Invalid data set!...',
+    });
+  }
+};
+
+//Pipeliniing
+exports.getCategoryStats = async (req, res, next) => {
+  try {
+    const stats = Category.aggregate([
+      {
+        $match: { ratingsAverage: { $gte: 4.5 } },
+      },
+      {
+        $group: {
+          _id: null,
+          averageRating: { $avg: '$ratingsAverage' },
         },
-      });
-    }
-  );
-};
-
-exports.updateCategory = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    data: {
-      category: "<Updated category here...>",
-    },
-  });
-};
-
-exports.deleteCategory = (req, res) => {
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
+      },
+    ]);
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      messsage: 'Invalid data set!...',
+    });
+  }
 };
