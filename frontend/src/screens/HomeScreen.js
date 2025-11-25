@@ -14,6 +14,8 @@ import theme from '../constants/theme';
 import { fetchVitals } from '../api/fetchVitalsApi';
 import { fetchPatient } from '../api/fetchPatientApi'; // ← ADD THIS
 import HealthVitalsCard from '../components/HealthVitalsCard';
+import QuickAccessCard from '../components/QuickAccessCard';
+import quickAccess from '../constants/quickAccess';
 
 const HomeScreen = ({ navigation }) => {
   const [vitals, setVitals] = useState([]);
@@ -155,6 +157,12 @@ const HomeScreen = ({ navigation }) => {
             </Text>
           )}
         </View>
+
+        {/* === Quick Access === */}
+        <View style={styles.quickContainer}>
+          <Text style={styles.qaHeader}>Quick Access</Text>
+          <QuickAccessCard qaData={quickAccess} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -163,6 +171,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 20,
     backgroundColor: theme.SolidColor.White,
   },
   center: {
@@ -188,7 +197,6 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   top: {
-    paddingHorizontal: 20,
     paddingTop: 10,
   },
   emergencyContainer: {
@@ -274,6 +282,14 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     marginTop: 20,
     fontSize: 14,
+  },
+  quickContainer: {
+    paddingTop: 25,
+  },
+  qaHeader: {
+    fontFamily: theme.FONTS.semibold,
+    fontSize: 18,
+    color: theme.SolidColor.DarkGray,
   },
 });
 
