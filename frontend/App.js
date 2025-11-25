@@ -6,11 +6,12 @@ import AppNavigation from './src/navigation/AppNavigation';
 import { FONTS } from './src/constants/fonts';
 import theme from './src/constants/theme';
 
-import { fetchCategories } from './src/api/api.js';
+//import { fetchCategories } from './src/api/api.js';
+import { fetchVitals } from './src/api/fetchVitalsApi';
 
 export default function App() {
   useEffect(() => {
-    fetchCategories();
+    fetchVitals();
   }, []);
 
   if (Text && Text.defaultProps == null) {

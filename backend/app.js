@@ -1,18 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
-const dotenv = require('dotenv');
 const cors = require('cors');
-//const connectDB = require("./src/config/database");
-
-// Load environment variables
-//dotenv.config({ path: "./src/config/config.env" });
-
-// Connect to database
-//connectDB();
 
 const categoryRouter = require('./src/routes/categoryRoutes');
 const doctorRouter = require('./src/routes/doctorRoutes');
 const vitalRouter = require('./src/routes/healthVitalRoutes');
+const patientRouter = require('./src/routes/patientRoutes');
 
 const app = express();
 
@@ -42,6 +35,7 @@ app.use((req, res, next) => {
 });
 
 //Routes
+app.use('/api/v1/patients', patientRouter);
 app.use('/api/v1/vitals', vitalRouter);
 app.use('/api/v1/categories', categoryRouter);
 app.use('/api/v1/doctors', doctorRouter);

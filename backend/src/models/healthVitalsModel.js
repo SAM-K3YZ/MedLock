@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
 
 const healthVitalSchema = new mongoose.Schema({
-  userId: {
-    type: String,
+  patientId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Patient',
     required: [true, 'A vital must belong to a user'],
   },
-  heartRate: Number,
-  bloodPressure: String,
+  heart_rate: Number,
+  blood_pressure: String,
+  oxygen_saturation: Number,
   temperature: Number,
-  oxygenLevel: Number,
   recordedAt: {
     type: Date,
     default: Date.now,

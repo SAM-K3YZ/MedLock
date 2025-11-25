@@ -1,17 +1,23 @@
 import { API_BASE_URL } from '@env';
 
+const TEST_PATIENT_ID = '69145f5a7c6d8dcc86793866';
+
 export const fetchVitals = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vitals`);
-
+    console.log('API_BASE_URL:', API_BASE_URL);
+    const url = `${API_BASE_URL}/vitals?patientId=${TEST_PATIENT_ID}`;
+    console.log('fetchVitals calling URL:', url);
+    const response = await fetch(url, { timeout: 10000 });
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const text = await response.text().catch(() => null);
+      console.error('fetchVitals non-ok response:', response.status, text);
+      throw new Error(`HTTP ${response.status}`);
     }
-
     const result = await response.json();
-    return result.data; // Assuming your backend returns { status, data }
+    console.log('Backend response (vitals):', result);
+    return result?.data?.vitals || result?.vitals || [];
   } catch (error) {
-    console.error('Error fetching vitals:', error);
-    return null; // optional fallback
+    console.error('fetchVitals error:', error);
+    return [];
   }
 };
