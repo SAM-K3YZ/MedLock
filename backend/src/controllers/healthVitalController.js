@@ -1,4 +1,3 @@
-// controllers/vitalController.js
 const HealthVital = require('../models/healthVitalsModel');
 
 // Helper: standardize error responses
@@ -23,7 +22,7 @@ exports.getAllHealthVitals = async (req, res) => {
     res.status(200).json({
       status: 'success',
       results: vitals.length,
-      data: { vitals }, // ← consistent with others
+      data: { vitals },
     });
   } catch (error) {
     sendError(res, 500, 'Failed to fetch vitals');

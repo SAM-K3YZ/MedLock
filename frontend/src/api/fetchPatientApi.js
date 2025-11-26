@@ -25,7 +25,7 @@ export const fetchPatient = async () => {
     }
 
     const result = await response.json();
-    console.log('Backend response (patient):', result);
+    //console.log('Backend response (patient):', result);
 
     // Backend returns { data: { patient } } for single patient
     // but older endpoints might return patients directly — handle both.

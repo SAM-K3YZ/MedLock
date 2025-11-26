@@ -7,7 +7,7 @@ exports.getAllPatients = async (req, res) => {
     res.status(200).json({
       status: 'success',
       results: patients.length,
-      data: patients,
+      data: { patients },
     });
   } catch (error) {
     res.status(500).json({

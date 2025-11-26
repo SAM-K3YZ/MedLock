@@ -16,6 +16,9 @@ import { fetchPatient } from '../api/fetchPatientApi'; // ← ADD THIS
 import HealthVitalsCard from '../components/HealthVitalsCard';
 import QuickAccessCard from '../components/QuickAccessCard';
 import quickAccess from '../constants/quickAccess';
+import hospitalServices from '../constants/hospitalServices';
+import UpcomingAppointmentCard from '../components/UpcomingAppointmentCard';
+import { fetchAppointments } from '../api/fetchAppointmentApi';
 
 const HomeScreen = ({ navigation }) => {
   const [vitals, setVitals] = useState([]);
@@ -23,6 +26,7 @@ const HomeScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
+  const [appointments, setAppointments] = useState([]);
 
   // === Load Patient Name ===
   const loadPatient = useCallback(async () => {
@@ -55,17 +59,31 @@ const HomeScreen = ({ navigation }) => {
     }
   }, []);
 
+  //=== load appointments ===
+  const loadAppointments = useCallback(async (patientId) => {
+    try {
+      // patientId can be real ID or undefined (fallback dummy ID used in fetchAppointments)
+      const data = await fetchAppointments({ patientId });
+      setAppointments(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('loadAppointments error:', err);
+      setAppointments([]);
+    }
+  }, []);
+
   // === Initial Load (Patient + Vitals) ===
   useEffect(() => {
     loadPatient();
     loadVitals();
+    loadAppointments();
   }, []);
 
   // === Pull to Refresh ===
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await Promise.all([loadPatient(), loadVitals(true)]);
-  }, [loadPatient, loadVitals]);
+    await Promise.all([loadPatient(), loadVitals(true), loadAppointments()]);
+    setRefreshing(false);
+  }, [loadPatient, loadVitals, loadAppointments]);
 
   // === Loading ===
   if (loading && !refreshing) {
@@ -158,10 +176,31 @@ const HomeScreen = ({ navigation }) => {
           )}
         </View>
 
+        {/* === Upcoming Appointments */}
+        <View style={styles.upSection}>
+          <View style={styles.upTop}>
+            <View>
+              <Text style={styles.qaHeader}>Upcoming Appointments</Text>
+            </View>
+            <View>
+              <Text>View All</Text>
+            </View>
+          </View>
+          <View>
+            <UpcomingAppointmentCard uaData={appointments} />
+          </View>
+        </View>
+
         {/* === Quick Access === */}
         <View style={styles.quickContainer}>
           <Text style={styles.qaHeader}>Quick Access</Text>
           <QuickAccessCard qaData={quickAccess} />
+        </View>
+
+        {/* === Hospital Services === */}
+        <View style={styles.quickContainer}>
+          <Text style={styles.qaHeader}>Hospital Services</Text>
+          <QuickAccessCard qaData={hospitalServices} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -282,6 +321,18 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     marginTop: 20,
     fontSize: 14,
+  },
+  upSection: {
+    marginTop: 20,
+  },
+  upTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  upheader: {
+    fontFamily: theme.FONTS.semibold,
+    fontSize: 18,
+    color: theme.SolidColor.DarkGray,
   },
   quickContainer: {
     paddingTop: 25,

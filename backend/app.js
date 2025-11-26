@@ -6,6 +6,7 @@ const categoryRouter = require('./src/routes/categoryRoutes');
 const doctorRouter = require('./src/routes/doctorRoutes');
 const vitalRouter = require('./src/routes/healthVitalRoutes');
 const patientRouter = require('./src/routes/patientRoutes');
+const appointmentRouter = require('./src/routes/appointmentRoutes');
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.use('/api/v1/patients', patientRouter);
 app.use('/api/v1/vitals', vitalRouter);
 app.use('/api/v1/categories', categoryRouter);
 app.use('/api/v1/doctors', doctorRouter);
+app.use('/api/v1/appointments', appointmentRouter);
 
 module.exports = app;
