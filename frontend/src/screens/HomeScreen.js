@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
 
 import theme from '../constants/theme';
 import { fetchVitals } from '../api/fetchVitalsApi';
@@ -19,8 +21,10 @@ import QuickAccessCard from '../components/QuickAccessCard';
 import UpcomingAppointmentCard from '../components/UpcomingAppointmentCard';
 import quickAccess from '../constants/quickAccess';
 import hospitalServices from '../constants/hospitalServices';
+import SearchInput from '../components/SearchInput';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
   const [vitals, setVitals] = useState([]);
   const [patientName, setPatientName] = useState('User');
   const [appointments, setAppointments] = useState([]);
@@ -152,6 +156,7 @@ const HomeScreen = () => {
                   name="search"
                   size={theme.SIZES.xlarge}
                   color={theme.SolidColor.SecondaryBlue}
+                  onPress={() => navigation.navigate('Search')}
                 />
               </View>
               <View style={styles.notificationBg}>
