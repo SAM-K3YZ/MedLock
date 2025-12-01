@@ -1,43 +1,32 @@
 import { API_BASE_URL } from '@env';
-
-// Fallback dummy patient ID until authentication is implemented
+// Dummy patient ID until auth is implemented
 const DUMMY_PATIENT_ID = '69145f5a7c6d8dcc86793866';
 
 /**
- * Fetch appointments from API.
- * @param {string} patientId Optional: fetch appointments for a specific patient.
- * @param {string} appointmentId Optional: fetch a single appointment by ID.
+ * Fetch all appointments or a single appointment
  */
-export const fetchAppointments = async ({ patientId, appointmentId } = {}) => {
-  const queryParams = new URLSearchParams();
+export const fetchAppointments = async ({
+  patientId = DUMMY_PATIENT_ID,
+  appointmentId,
+} = {}) => {
+  const params = new URLSearchParams();
+  if (patientId) params.append('patientId', patientId);
+  if (appointmentId) params.append('id', appointmentId);
 
-  if (appointmentId) queryParams.append('id', appointmentId);
-  if (patientId) queryParams.append('patientId', patientId);
-
-  const url = `${API_BASE_URL}/appointments${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
+  const url = `${API_BASE_URL}/appointments${params.toString() ? '?' + params.toString() : ''}`;
+  console.log('Fetching appointments URL:', url);
 
   try {
-    console.log('Fetching URL:', url);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+
     const response = await fetch(url, { signal: controller.signal });
     clearTimeout(timeout);
 
-    if (!response.ok) {
-      const text = await response.text().catch(() => null);
-      console.error(
-        'fetchAppointments non-ok response:',
-        response.status,
-        text,
-      );
-      throw new Error(`HTTP ${response.status}`);
-    }
+    if (!response.ok) return [];
 
-    const result = await response.json();
-    console.log('Raw API response:', result);
-
-    return result?.data?.appointments || [];
+    const { data } = await response.json();
+    return data?.appointments || [];
   } catch (error) {
     console.error('fetchAppointments error:', error);
     return [];

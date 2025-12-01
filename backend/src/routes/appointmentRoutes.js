@@ -1,11 +1,16 @@
 const express = require('express');
+const router = express.Router();
 const {
-  getAppointments,
+  getAllAppointments,
+  getAnAppointment,
   createAppointments,
 } = require('../controllers/appointmentController');
-const router = express.Router();
 
-// Unified GET for single/multiple appointments & POST to create
-router.route('/').get(getAppointments).post(createAppointments);
+// 1. GET all appointments
+// Optional query: ?patientId=xxxx to filter by patient
+router.route('/').get(getAllAppointments).post(createAppointments);
+
+// 2. GET single appointment by ID
+router.route('/').get(getAnAppointment);
 
 module.exports = router;

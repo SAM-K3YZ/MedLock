@@ -12,58 +12,49 @@ import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 
 import theme from '../constants/theme';
 import { fetchVitals } from '../api/fetchVitalsApi';
-import { fetchPatient } from '../api/fetchPatientApi'; // ← ADD THIS
+import { fetchPatient } from '../api/fetchPatientApi';
+import { fetchAppointments } from '../api/fetchAppointmentApi';
 import HealthVitalsCard from '../components/HealthVitalsCard';
 import QuickAccessCard from '../components/QuickAccessCard';
+import UpcomingAppointmentCard from '../components/UpcomingAppointmentCard';
 import quickAccess from '../constants/quickAccess';
 import hospitalServices from '../constants/hospitalServices';
-import UpcomingAppointmentCard from '../components/UpcomingAppointmentCard';
-import { fetchAppointments } from '../api/fetchAppointmentApi';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
   const [vitals, setVitals] = useState([]);
   const [patientName, setPatientName] = useState('User');
+  const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
-  const [appointments, setAppointments] = useState([]);
 
-  // === Load Patient Name ===
+  // === Load patient info ===
   const loadPatient = useCallback(async () => {
     try {
       const patient = await fetchPatient();
-      if (patient?.firstname) {
-        setPatientName(patient.firstname);
-      }
+      if (patient?.firstname) setPatientName(patient.firstname);
     } catch (err) {
       console.error('loadPatient error:', err);
-      // Keep default 'User'
+      // keep default 'User'
     }
   }, []);
 
-  // === Load Vitals ===
-  const loadVitals = useCallback(async (isRefresh = false) => {
+  // === Load vitals ===
+  const loadVitals = useCallback(async () => {
     try {
-      if (!isRefresh) setLoading(true);
-      setError(null);
-
       const data = await fetchVitals();
       setVitals(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('loadVitals error:', err);
       setError('Failed to load vitals');
       setVitals([]);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
     }
   }, []);
 
-  //=== load appointments ===
-  const loadAppointments = useCallback(async (patientId) => {
+  // === Load appointments ===
+  const loadAppointments = useCallback(async () => {
     try {
-      // patientId can be real ID or undefined (fallback dummy ID used in fetchAppointments)
-      const data = await fetchAppointments({ patientId });
+      const data = await fetchAppointments();
       setAppointments(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('loadAppointments error:', err);
@@ -71,19 +62,30 @@ const HomeScreen = ({ navigation }) => {
     }
   }, []);
 
-  // === Initial Load (Patient + Vitals) ===
-  useEffect(() => {
-    loadPatient();
-    loadVitals();
-    loadAppointments();
-  }, []);
+  // === Combined initial load ===
+  const loadAllData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await Promise.all([loadPatient(), loadVitals(), loadAppointments()]);
+    } catch (err) {
+      console.error('loadAllData error:', err);
+      setError('Failed to load some data');
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, [loadPatient, loadVitals, loadAppointments]);
 
-  // === Pull to Refresh ===
+  useEffect(() => {
+    loadAllData();
+  }, [loadAllData]);
+
+  // === Pull to refresh ===
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await Promise.all([loadPatient(), loadVitals(true), loadAppointments()]);
-    setRefreshing(false);
-  }, [loadPatient, loadVitals, loadAppointments]);
+    await loadAllData();
+  }, [loadAllData]);
 
   // === Loading ===
   if (loading && !refreshing) {
@@ -166,7 +168,6 @@ const HomeScreen = ({ navigation }) => {
         {/* === VITALS CARD === */}
         <View style={styles.healthVitalsContainer}>
           <Text style={styles.healthVitalsText}>Vitals</Text>
-
           {vitals.length > 0 ? (
             <HealthVitalsCard key={vitals[0]._id} vital={vitals[0]} />
           ) : (
@@ -176,19 +177,13 @@ const HomeScreen = ({ navigation }) => {
           )}
         </View>
 
-        {/* === Upcoming Appointments */}
+        {/* === Upcoming Appointments === */}
         <View style={styles.upSection}>
           <View style={styles.upTop}>
-            <View>
-              <Text style={styles.qaHeader}>Upcoming Appointments</Text>
-            </View>
-            <View>
-              <Text>View All</Text>
-            </View>
+            <Text style={styles.qaHeader}>Upcoming Appointments</Text>
+            <Text>View All</Text>
           </View>
-          <View>
-            <UpcomingAppointmentCard uaData={appointments} />
-          </View>
+          <UpcomingAppointmentCard uaData={appointments} />
         </View>
 
         {/* === Quick Access === */}
@@ -219,11 +214,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  loadingText: {
-    marginTop: 12,
-    color: '#666',
-    fontSize: 16,
-  },
+  loadingText: { marginTop: 12, color: '#666', fontSize: 16 },
   errorText: {
     color: theme.SolidColor.RedError,
     fontSize: 16,
@@ -235,9 +226,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textDecorationLine: 'underline',
   },
-  top: {
-    paddingTop: 10,
-  },
+  top: { paddingTop: 10 },
   emergencyContainer: {
     height: 60,
     flexDirection: 'row',
@@ -247,12 +236,8 @@ const styles = StyleSheet.create({
     borderRadius: theme.SIZES.small,
     backgroundColor: theme.SolidColor.RedError,
   },
-  emergencyLeft: {
-    marginRight: theme.SIZES.medium,
-  },
-  emergencyRight: {
-    alignItems: 'center',
-  },
+  emergencyLeft: { marginRight: theme.SIZES.medium },
+  emergencyRight: { alignItems: 'center' },
   emergencyText: {
     fontFamily: theme.FONTS.bold,
     fontSize: theme.FONT_SIZES.medium,
@@ -269,13 +254,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-  greetingsLeft: {
-    flex: 1,
-  },
-  greetingsRight: {
-    flexDirection: 'row',
-    gap: 12,
-  },
+  greetingsLeft: { flex: 1 },
+  greetingsRight: { flexDirection: 'row', gap: 12 },
   searchBg: {
     borderRadius: theme.SIZES.large,
     padding: theme.SIZES.base,
@@ -322,21 +302,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 14,
   },
-  upSection: {
-    marginTop: 20,
-  },
-  upTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  upheader: {
-    fontFamily: theme.FONTS.semibold,
-    fontSize: 18,
-    color: theme.SolidColor.DarkGray,
-  },
-  quickContainer: {
-    paddingTop: 25,
-  },
+  upSection: { marginTop: 20 },
+  upTop: { flexDirection: 'row', justifyContent: 'space-between' },
+  quickContainer: { paddingTop: 25 },
   qaHeader: {
     fontFamily: theme.FONTS.semibold,
     fontSize: 18,
