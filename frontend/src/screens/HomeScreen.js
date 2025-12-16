@@ -21,7 +21,6 @@ import QuickAccessCard from '../components/QuickAccessCard';
 import UpcomingAppointmentCard from '../components/UpcomingAppointmentCard';
 import quickAccess from '../constants/quickAccess';
 import hospitalServices from '../constants/hospitalServices';
-import SearchInput from '../components/SearchInput';
 
 const HomeScreen = () => {
   const navigation = useNavigation();

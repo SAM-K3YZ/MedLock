@@ -1,17 +1,23 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Pressable } from 'react-native';
 import theme from '../constants/theme';
+import { useNavigation } from '@react-navigation/native';
 
 export default function QuickAccessCard({ qaData = [] }) {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.qaGrid}>
       {qaData.map((item) => (
-        <View key={item.id} style={styles.qaItem}>
+        <Pressable
+          key={item.id}
+          style={styles.qaItem}
+          onPress={() => navigation.navigate(item.route)}
+        >
           <View style={[styles.iconBg, { backgroundColor: item.bg }]}>
             {item.icon}
           </View>
-
           <Text style={styles.qaText}>{item.name}</Text>
-        </View>
+        </Pressable>
       ))}
     </View>
   );

@@ -5,6 +5,7 @@ const quickAccess = [
   {
     id: 1,
     name: 'Emergency',
+    route: 'EmergencyScreen',
     icon: (
       <FontAwesome5 name="ambulance" size={20} color={theme.SolidColor.White} />
     ),
@@ -13,6 +14,7 @@ const quickAccess = [
   {
     id: 2,
     name: 'Appointments',
+    route: 'AppointmentScreen',
     icon: (
       <FontAwesome5 name="calendar" size={20} color={theme.SolidColor.White} />
     ),
@@ -21,6 +23,7 @@ const quickAccess = [
   {
     id: 3,
     name: 'Departments',
+    route: 'DepartmentScreen',
     icon: (
       <FontAwesome5 name="building" size={20} color={theme.SolidColor.White} />
     ),
@@ -29,6 +32,7 @@ const quickAccess = [
   {
     id: 4,
     name: 'Lab Tests',
+    route: 'LabTestScreen',
     icon: (
       <FontAwesome5 name="flask" size={20} color={theme.SolidColor.White} />
     ),
@@ -37,6 +41,7 @@ const quickAccess = [
   {
     id: 5,
     name: 'Pharmacy',
+    route: 'PharmacyScreen',
     icon: (
       <FontAwesome5 name="pills" size={20} color={theme.SolidColor.White} />
     ),
@@ -45,6 +50,7 @@ const quickAccess = [
   {
     id: 6,
     name: 'Records',
+    route: 'RecordScreen',
     icon: <FontAwesome5 name="book" size={20} color={theme.SolidColor.White} />,
     bg: theme.SolidColor.SecondaryBlue,
   },

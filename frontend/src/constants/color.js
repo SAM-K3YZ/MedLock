@@ -1,6 +1,8 @@
 export const SolidColor = {
   PrimaryBlue: '#3B82F6',
   SecondaryBlue: '#2563EB',
+  LightBlue: '#b8cfffff',
+  LightRed: '#ffb8b8ff',
   PinkAccent: '#EC4899',
   GreenSuccess: '#10B981',
   OrangeWarning: '#F59E0B',
